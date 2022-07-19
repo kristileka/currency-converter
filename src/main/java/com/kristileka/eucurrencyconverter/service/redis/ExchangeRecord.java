@@ -1,10 +1,11 @@
 package com.kristileka.eucurrencyconverter.service.redis;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.opencsv.bean.CsvDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @RedisHash("DailyRecord")
@@ -12,12 +13,9 @@ public class ExchangeRecord implements Serializable {
     public ExchangeRecord() {
     }
 
-    public ExchangeRecord(Date date) {
-        Date = date;
-    }
-
     @Id
-    Date Date;
+    @CsvDate(value = "yyyy-MM-dd")
+    LocalDate Date;
     String USD;
     String JPY;
     String BGN;
@@ -60,12 +58,12 @@ public class ExchangeRecord implements Serializable {
     String THB;
     String ZAR;
 
-    public java.util.Date getDate() {
+    public LocalDate getDate() {
         return Date;
     }
 
-    public void setDate(java.util.Date date) {
-        Date = date;
+    public void setDate(LocalDate localDate) {
+        Date = localDate;
     }
 
     public String getUSD() {

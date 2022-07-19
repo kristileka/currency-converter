@@ -1,8 +1,7 @@
 package com.kristileka.eucurrencyconverter.service.filesystem.impl;
 
 import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
-import net.lingala.zip4j.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -12,14 +11,21 @@ import java.util.zip.ZipInputStream;
 
 @Service
 public class ZipManagerServiceImpl implements ZipManagerService {
+    @Autowired
+    String extractDirectoryPath;
+    @Autowired
+    String csvFileName;
+
     @Override
-    public void unZipFile(String file, String destination) throws IOException {
-        File destDir = new File(destination);
+    public String unZipFile(String path) throws IOException {
         byte[] buffer = new byte[1024];
-        ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(path));
         ZipEntry zipEntry = zis.getNextEntry();
+        File extractDirectory = new File(extractDirectoryPath);
+        if (!extractDirectory.exists())
+            extractDirectory.mkdir();
         while (zipEntry != null) {
-            File newFile = newFile(destDir, zipEntry);
+            File newFile = newFile(extractDirectory, zipEntry);
             if (zipEntry.isDirectory()) {
                 if (!newFile.isDirectory() && !newFile.mkdirs()) {
                     throw new IOException("Failed to create directory " + newFile);
@@ -43,6 +49,7 @@ public class ZipManagerServiceImpl implements ZipManagerService {
         }
         zis.closeEntry();
         zis.close();
+        return extractDirectoryPath + csvFileName;
     }
 
     public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {

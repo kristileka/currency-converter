@@ -7,5 +7,5 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface ZipManagerService {
-    void unZipFile(String file, String destination) throws IOException;
+    String unZipFile(String path) throws IOException;
 }

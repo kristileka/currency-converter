@@ -6,38 +6,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Timestamp;
-import java.time.Instant;
 
 @Service
 public class NetworkManagerServiceImpl implements NetworkManagerService {
     @Autowired
     RestTemplate restTemplate;
-
     @Autowired
     String ecbUrl;
-
     @Autowired
-    String downloadDirectory;
+    String downloadDirectoryPath;
+    @Autowired
+    String zipFileName;
+
 
     @Override
-    public void downloadLatestContent() {
+    public String getLatestContent() {
         byte[] content = restTemplate.getForObject(ecbUrl, byte[].class);
-        if (content == null) return;
-        File directory = new File(downloadDirectory);
-        if (!directory.exists()) {
+        if (content == null) return "";
+        File directory = new File(downloadDirectoryPath);
+        if (!directory.exists())
             directory.mkdir();
-        }
-        try (FileOutputStream stream = new FileOutputStream("src/main/resources/download/currency-data.zip")) {
+        String fileLocation = downloadDirectoryPath + zipFileName;
+        try (FileOutputStream stream = new FileOutputStream(fileLocation)) {
             stream.write(content);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return "";
         }
-
+        return fileLocation;
     }
 }
