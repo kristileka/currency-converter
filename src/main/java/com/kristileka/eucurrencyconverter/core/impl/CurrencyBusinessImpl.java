@@ -1,18 +1,14 @@
 package com.kristileka.eucurrencyconverter.core.impl;
 
 import com.kristileka.eucurrencyconverter.core.CurrencyBusiness;
-import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
+import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
 import com.kristileka.eucurrencyconverter.service.redis.ExchangeRecord;
 import com.kristileka.eucurrencyconverter.service.redis.ExchangeRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 public class CurrencyBusinessImpl implements CurrencyBusiness {
@@ -21,13 +17,20 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
     ExchangeRecordRepository exchangeRepository;
 
     @Override
-    public void updateCurrencies(List<ExchangeRecord> exchangeRecordList) {
-        Field[] fields = ExchangeRecord.class.getFields();
-
-        List<Date> oldDates = exchangeRepository.findAll().stream().map(ExchangeRecord::getDate).toList();
-        List<ExchangeRecord> newDates = exchangeRecordList.stream().filter(record ->
-                !oldDates.contains(record.getDate())
+    public void updateCurrencies(List<ExchangeRecordDTO> exchangeRecordList) {
+        List<ExchangeRecord> exchangeRecords = exchangeRecordList.stream().map(record ->
+                new ExchangeRecord(UUID.randomUUID().toString(), record.getDate(), record.getCurrency(), record.getAmount())
         ).toList();
-        exchangeRepository.saveAll(newDates);
+        List<ExchangeRecord> savedExchangeRecords = exchangeRepository.findAll();
+//        List<ExchangeRecord> recordsToUpdate = exchangeRecords.stream().filter(
+//                exchangeRecord ->
+//                        savedExchangeRecords.stream().noneMatch(
+//                                savedRecord ->
+//                                        savedRecord.getDate() == exchangeRecord.getDate()
+//                                                && savedRecord.getCurrency().equals(exchangeRecord.getCurrency())
+//                        )
+//        ).toList();
+
+        exchangeRepository.saveAll(exchangeRecords);
     }
 }

@@ -1,10 +1,10 @@
 package com.kristileka.eucurrencyconverter.core;
 
-import com.kristileka.eucurrencyconverter.service.redis.ExchangeRecord;
+import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
 
 import java.util.List;
 
 
 public interface CurrencyBusiness {
-    void updateCurrencies(List<ExchangeRecord> exchangeRecordList);
+    void updateCurrencies(List<ExchangeRecordDTO> exchangeRecordList);
 }
