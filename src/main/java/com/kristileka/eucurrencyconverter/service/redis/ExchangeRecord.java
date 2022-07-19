@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.time.LocalDate;
 
@@ -20,7 +21,10 @@ public class ExchangeRecord {
     @JsonIgnore
     @Id
     String id;
+    @Indexed
+
     LocalDate date;
+    @Indexed
     String currency;
     Double amount;
 
