@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CurrencyBusinessImpl implements CurrencyBusiness {
@@ -24,24 +25,19 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
     @Override
     public void updateCurrencies(List<ExchangeRecordDTO> exchangeRecordList) {
         logger.info("Currency Updater has started.");
-        List<ExchangeRecord> exchangeRecords = exchangeRecordList.stream().map(record ->
+        logger.info("Retrieving current stored records.");
+        List<String> storedDatesCurrencies = exchangeRepository.findAll().stream().map(exchangeRecord ->
+                exchangeRecord.getDate() + exchangeRecord.getCurrency()).toList();
+        logger.info("Filtering not stored records.");
+        List<ExchangeRecordDTO> toUpdate = exchangeRecordList.stream().filter(exchangeRecord ->
+                !storedDatesCurrencies.contains(exchangeRecord.getDate() + exchangeRecord.getCurrency())).toList();
+        List<ExchangeRecord> exchangeRecords = toUpdate.stream().map(record ->
                 new ExchangeRecord(UUID.randomUUID().toString(), record.getDate(), record.getCurrency(), record.getAmount())
         ).toList();
-        if (!checkIfRedisHasLatestData(exchangeRecordList)) {
-            logger.info(".");
-            List<ExchangeRecord> oldExchangeRecords = exchangeRepository.findAll();
-            exchangeRepository.saveAll(exchangeRecords);
-            exchangeRepository.deleteAll(oldExchangeRecords);
-        } else {
+        logger.info("Storing new records.");
+        exchangeRepository.saveAll(exchangeRecords);
+        logger.info("Finished updating records");
 
-        }
     }
 
-
-    private boolean checkIfRedisHasLatestData(List<ExchangeRecordDTO> exchangeRecordList) {
-        List<ExchangeRecord> beginDate = exchangeRepository.findAllByDate(exchangeRecordList.get(0).getDate());
-        List<ExchangeRecord> randomDate = exchangeRepository.findAllByDate(exchangeRecordList.get(new Random().nextInt(exchangeRecordList.size() - 1)).getDate());
-        List<ExchangeRecord> endDate = exchangeRepository.findAllByDate(exchangeRecordList.get(exchangeRecordList.size() - 1).getDate());
-        return beginDate.isEmpty() && endDate.isEmpty() && randomDate.isEmpty();
-    }
 }
