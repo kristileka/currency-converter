@@ -33,7 +33,7 @@ public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
         if (latestContentZip.isEmpty())
             return;
         String csvPath = zipManagerService.unZipFile(latestContentZip);
-        List<ExchangeRecord> exchangeRecordList = csvManagerService.readCsvExchangeRecords(csvPath);
-        currencyBusiness.updateCurrencies(exchangeRecordList);
+        csvManagerService.readCsvExchangeRecords(csvPath);
+//        currencyBusiness.updateCurrencies(exchangeRecordList);
     }
 }
