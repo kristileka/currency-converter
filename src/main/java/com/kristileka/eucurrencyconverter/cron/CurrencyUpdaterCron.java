@@ -20,8 +20,7 @@ public class CurrencyUpdaterCron implements SmartLifecycle {
     @Scheduled(fixedDelay = 10 * 1000L)
     public void startCurrencyUpdater() {
         try {
-            List<ExchangeRecord> list = currencyUpdaterBusiness.updateCurrencies();
-            String test = "";
+            currencyUpdaterBusiness.updateCurrencies();
         } catch (IOException ex) {
 
         }

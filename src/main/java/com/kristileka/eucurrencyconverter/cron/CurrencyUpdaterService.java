@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CurrencyUpdaterService {
-    List<ExchangeRecord> updateCurrencies() throws IOException;
+    void updateCurrencies() throws IOException;
 }

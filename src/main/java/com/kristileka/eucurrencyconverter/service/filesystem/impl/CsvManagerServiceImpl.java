@@ -14,7 +14,7 @@ import java.util.List;
 public class CsvManagerServiceImpl implements CsvManagerService {
 
     @Override
-    public List readCsvExchangeRecords(String path) {
+    public List<ExchangeRecord> readCsvExchangeRecords(String path) {
         try {
             File csvFile = new File(path);
             InputStream stream = new FileInputStream(csvFile);

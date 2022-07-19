@@ -1,5 +1,6 @@
 package com.kristileka.eucurrencyconverter.cron.impl;
 
+import com.kristileka.eucurrencyconverter.core.CurrencyBusiness;
 import com.kristileka.eucurrencyconverter.cron.CurrencyUpdaterService;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
@@ -19,19 +20,20 @@ public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
     @Autowired
     ZipManagerService zipManagerService;
     @Autowired
-    ExchangeRecordRepository exchangeRepository;
-    @Autowired
     NetworkManagerService networkManagerService;
     @Autowired
     CsvManagerService csvManagerService;
 
+    @Autowired
+    CurrencyBusiness currencyBusiness;
 
     @Override
-    public List<ExchangeRecord> updateCurrencies() throws IOException {
+    public void updateCurrencies() throws IOException {
         String latestContentZip = networkManagerService.getLatestContent();
         if (latestContentZip.isEmpty())
-            return Collections.emptyList();
+            return;
         String csvPath = zipManagerService.unZipFile(latestContentZip);
-        return csvManagerService.readCsvExchangeRecords(csvPath);
+        List<ExchangeRecord> exchangeRecordList = csvManagerService.readCsvExchangeRecords(csvPath);
+        currencyBusiness.updateCurrencies(exchangeRecordList);
     }
 }

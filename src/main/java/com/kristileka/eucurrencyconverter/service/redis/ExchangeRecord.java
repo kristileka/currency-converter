@@ -1,11 +1,11 @@
 package com.kristileka.eucurrencyconverter.service.redis;
 
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 @RedisHash("DailyRecord")
@@ -15,382 +15,424 @@ public class ExchangeRecord implements Serializable {
 
     @Id
     @CsvDate(value = "yyyy-MM-dd")
-    LocalDate Date;
-    String USD;
-    String JPY;
-    String BGN;
-    String CYP;
-    String CZK;
-    String DKK;
-    String EEK;
-    String GBP;
-    String HUF;
-    String LTL;
-    String LVL;
-    String MTL;
-    String PLN;
-    String ROL;
-    String RON;
-    String SEK;
-    String SIT;
-    String SKK;
-    String CHF;
-    String ISK;
-    String NOK;
-    String HRK;
-    String RUB;
-    String TRL;
-    String TRY;
-    String AUD;
-    String BRL;
-    String CAD;
-    String CNY;
-    String HKD;
-    String IDR;
-    String ILS;
-    String INR;
-    String KRW;
-    String MXN;
-    String MYR;
-    String NZD;
-    String PHP;
-    String SGD;
-    String THB;
-    String ZAR;
+    @CsvBindByName(column = "Date")
+    Date date;
+    @CsvBindByName(column = "USD")
+    String usd;
+    @CsvBindByName(column = "JPY")
+    String jpy;
+    @CsvBindByName(column = "BGN")
+    String bgn;
+    @CsvBindByName(column = "CYP")
+    String cyp;
+    @CsvBindByName(column = "CZK")
+    String czk;
+    @CsvBindByName(column = "DKK")
+    String dkk;
+    @CsvBindByName(column = "EEK")
+    String eek;
+    @CsvBindByName(column = "GBP")
+    String gbp;
+    @CsvBindByName(column = "HUF")
+    String huf;
+    @CsvBindByName(column = "LTL")
+    String ltl;
+    @CsvBindByName(column = "LVL")
+    String lvl;
+    @CsvBindByName(column = "MTL")
+    String mtl;
+    @CsvBindByName(column = "PLN")
+    String pln;
+    @CsvBindByName(column = "ROL")
+    String rol;
+    @CsvBindByName(column = "RON")
+    String ron;
+    @CsvBindByName(column = "SEK")
+    String sek;
+    @CsvBindByName(column = "SIT")
+    String sit;
+    @CsvBindByName(column = "SKK")
+    String skk;
+    @CsvBindByName(column = "CHF")
+    String chf;
+    @CsvBindByName(column = "ISK")
+    String isk;
+    @CsvBindByName(column = "NOK")
+    String nok;
+    @CsvBindByName(column = "HRK")
+    String hrk;
+    @CsvBindByName(column = "RUB")
+    String rub;
+    @CsvBindByName(column = "TRL")
+    String trl;
+    @CsvBindByName(column = "TRY")
+    String tr;
+    @CsvBindByName(column = "AUD")
+    String aud;
+    @CsvBindByName(column = "BRL")
+    String brl;
+    @CsvBindByName(column = "CAD")
+    String cad;
+    @CsvBindByName(column = "CNY")
+    String cny;
+    @CsvBindByName(column = "HKD")
+    String hkd;
+    @CsvBindByName(column = "IDR")
+    String idr;
+    @CsvBindByName(column = "ILS")
+    String ils;
+    @CsvBindByName(column = "INR")
+    String inr;
+    @CsvBindByName(column = "KRW")
+    String krw;
+    @CsvBindByName(column = "MXN")
+    String mxn;
+    @CsvBindByName(column = "MYR")
+    String myr;
+    @CsvBindByName(column = "NZD")
+    String nzd;
+    @CsvBindByName(column = "PHP")
+    String php;
+    @CsvBindByName(column = "SGD")
+    String sgd;
+    @CsvBindByName(column = "THB")
+    String thb;
+    @CsvBindByName(column = "ZAR")
+    String zar;
 
-    public LocalDate getDate() {
-        return Date;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate(LocalDate localDate) {
-        Date = localDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getUSD() {
-        return USD;
+    public String getUsd() {
+        return usd;
     }
 
-    public void setUSD(String USD) {
-        this.USD = USD;
+    public void setUsd(String usd) {
+        this.usd = usd;
     }
 
-    public String getJPY() {
-        return JPY;
+    public String getJpy() {
+        return jpy;
     }
 
-    public void setJPY(String JPY) {
-        this.JPY = JPY;
+    public void setJpy(String jpy) {
+        this.jpy = jpy;
     }
 
-    public String getBGN() {
-        return BGN;
+    public String getBgn() {
+        return bgn;
     }
 
-    public void setBGN(String BGN) {
-        this.BGN = BGN;
+    public void setBgn(String bgn) {
+        this.bgn = bgn;
     }
 
-    public String getCYP() {
-        return CYP;
+    public String getCyp() {
+        return cyp;
     }
 
-    public void setCYP(String CYP) {
-        this.CYP = CYP;
+    public void setCyp(String cyp) {
+        this.cyp = cyp;
     }
 
-    public String getCZK() {
-        return CZK;
+    public String getCzk() {
+        return czk;
     }
 
-    public void setCZK(String CZK) {
-        this.CZK = CZK;
+    public void setCzk(String czk) {
+        this.czk = czk;
     }
 
-    public String getDKK() {
-        return DKK;
+    public String getDkk() {
+        return dkk;
     }
 
-    public void setDKK(String DKK) {
-        this.DKK = DKK;
+    public void setDkk(String dkk) {
+        this.dkk = dkk;
     }
 
-    public String getEEK() {
-        return EEK;
+    public String getEek() {
+        return eek;
     }
 
-    public void setEEK(String EEK) {
-        this.EEK = EEK;
+    public void setEek(String eek) {
+        this.eek = eek;
     }
 
-    public String getGBP() {
-        return GBP;
+    public String getGbp() {
+        return gbp;
     }
 
-    public void setGBP(String GBP) {
-        this.GBP = GBP;
+    public void setGbp(String gbp) {
+        this.gbp = gbp;
     }
 
-    public String getHUF() {
-        return HUF;
+    public String getHuf() {
+        return huf;
     }
 
-    public void setHUF(String HUF) {
-        this.HUF = HUF;
+    public void setHuf(String huf) {
+        this.huf = huf;
     }
 
-    public String getLTL() {
-        return LTL;
+    public String getLtl() {
+        return ltl;
     }
 
-    public void setLTL(String LTL) {
-        this.LTL = LTL;
+    public void setLtl(String ltl) {
+        this.ltl = ltl;
     }
 
-    public String getLVL() {
-        return LVL;
+    public String getLvl() {
+        return lvl;
     }
 
-    public void setLVL(String LVL) {
-        this.LVL = LVL;
+    public void setLvl(String lvl) {
+        this.lvl = lvl;
     }
 
-    public String getMTL() {
-        return MTL;
+    public String getMtl() {
+        return mtl;
     }
 
-    public void setMTL(String MTL) {
-        this.MTL = MTL;
+    public void setMtl(String mtl) {
+        this.mtl = mtl;
     }
 
-    public String getPLN() {
-        return PLN;
+    public String getPln() {
+        return pln;
     }
 
-    public void setPLN(String PLN) {
-        this.PLN = PLN;
+    public void setPln(String pln) {
+        this.pln = pln;
     }
 
-    public String getROL() {
-        return ROL;
+    public String getRol() {
+        return rol;
     }
 
-    public void setROL(String ROL) {
-        this.ROL = ROL;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
-    public String getRON() {
-        return RON;
+    public String getRon() {
+        return ron;
     }
 
-    public void setRON(String RON) {
-        this.RON = RON;
+    public void setRon(String ron) {
+        this.ron = ron;
     }
 
-    public String getSEK() {
-        return SEK;
+    public String getSek() {
+        return sek;
     }
 
-    public void setSEK(String SEK) {
-        this.SEK = SEK;
+    public void setSek(String sek) {
+        this.sek = sek;
     }
 
-    public String getSIT() {
-        return SIT;
+    public String getSit() {
+        return sit;
     }
 
-    public void setSIT(String SIT) {
-        this.SIT = SIT;
+    public void setSit(String sit) {
+        this.sit = sit;
     }
 
-    public String getSKK() {
-        return SKK;
+    public String getSkk() {
+        return skk;
     }
 
-    public void setSKK(String SKK) {
-        this.SKK = SKK;
+    public void setSkk(String skk) {
+        this.skk = skk;
     }
 
-    public String getCHF() {
-        return CHF;
+    public String getChf() {
+        return chf;
     }
 
-    public void setCHF(String CHF) {
-        this.CHF = CHF;
+    public void setChf(String chf) {
+        this.chf = chf;
     }
 
-    public String getISK() {
-        return ISK;
+    public String getIsk() {
+        return isk;
     }
 
-    public void setISK(String ISK) {
-        this.ISK = ISK;
+    public void setIsk(String isk) {
+        this.isk = isk;
     }
 
-    public String getNOK() {
-        return NOK;
+    public String getNok() {
+        return nok;
     }
 
-    public void setNOK(String NOK) {
-        this.NOK = NOK;
+    public void setNok(String nok) {
+        this.nok = nok;
     }
 
-    public String getHRK() {
-        return HRK;
+    public String getHrk() {
+        return hrk;
     }
 
-    public void setHRK(String HRK) {
-        this.HRK = HRK;
+    public void setHrk(String hrk) {
+        this.hrk = hrk;
     }
 
-    public String getRUB() {
-        return RUB;
+    public String getRub() {
+        return rub;
     }
 
-    public void setRUB(String RUB) {
-        this.RUB = RUB;
+    public void setRub(String rub) {
+        this.rub = rub;
     }
 
-    public String getTRL() {
-        return TRL;
+    public String getTrl() {
+        return trl;
     }
 
-    public void setTRL(String TRL) {
-        this.TRL = TRL;
+    public void setTrl(String trl) {
+        this.trl = trl;
     }
 
-    public String getTRY() {
-        return TRY;
+    public String getAud() {
+        return aud;
     }
 
-    public void setTRY(String TRY) {
-        this.TRY = TRY;
+    public void setAud(String aud) {
+        this.aud = aud;
     }
 
-    public String getAUD() {
-        return AUD;
+    public String getBrl() {
+        return brl;
     }
 
-    public void setAUD(String AUD) {
-        this.AUD = AUD;
+    public void setBrl(String brl) {
+        this.brl = brl;
     }
 
-    public String getBRL() {
-        return BRL;
+    public String getCad() {
+        return cad;
     }
 
-    public void setBRL(String BRL) {
-        this.BRL = BRL;
+    public void setCad(String cad) {
+        this.cad = cad;
     }
 
-    public String getCAD() {
-        return CAD;
+    public String getCny() {
+        return cny;
     }
 
-    public void setCAD(String CAD) {
-        this.CAD = CAD;
+    public void setCny(String cny) {
+        this.cny = cny;
     }
 
-    public String getCNY() {
-        return CNY;
+    public String getHkd() {
+        return hkd;
     }
 
-    public void setCNY(String CNY) {
-        this.CNY = CNY;
+    public void setHkd(String hkd) {
+        this.hkd = hkd;
     }
 
-    public String getHKD() {
-        return HKD;
+    public String getIdr() {
+        return idr;
     }
 
-    public void setHKD(String HKD) {
-        this.HKD = HKD;
+    public void setIdr(String idr) {
+        this.idr = idr;
     }
 
-    public String getIDR() {
-        return IDR;
+    public String getIls() {
+        return ils;
     }
 
-    public void setIDR(String IDR) {
-        this.IDR = IDR;
+    public void setIls(String ils) {
+        this.ils = ils;
     }
 
-    public String getILS() {
-        return ILS;
+    public String getInr() {
+        return inr;
     }
 
-    public void setILS(String ILS) {
-        this.ILS = ILS;
+    public void setInr(String inr) {
+        this.inr = inr;
     }
 
-    public String getINR() {
-        return INR;
+    public String getKrw() {
+        return krw;
     }
 
-    public void setINR(String INR) {
-        this.INR = INR;
+    public void setKrw(String krw) {
+        this.krw = krw;
     }
 
-    public String getKRW() {
-        return KRW;
+    public String getMxn() {
+        return mxn;
     }
 
-    public void setKRW(String KRW) {
-        this.KRW = KRW;
+    public void setMxn(String mxn) {
+        this.mxn = mxn;
     }
 
-    public String getMXN() {
-        return MXN;
+    public String getMyr() {
+        return myr;
     }
 
-    public void setMXN(String MXN) {
-        this.MXN = MXN;
+    public void setMyr(String myr) {
+        this.myr = myr;
     }
 
-    public String getMYR() {
-        return MYR;
+    public String getNzd() {
+        return nzd;
     }
 
-    public void setMYR(String MYR) {
-        this.MYR = MYR;
+    public void setNzd(String nzd) {
+        this.nzd = nzd;
     }
 
-    public String getNZD() {
-        return NZD;
+    public String getPhp() {
+        return php;
     }
 
-    public void setNZD(String NZD) {
-        this.NZD = NZD;
+    public void setPhp(String php) {
+        this.php = php;
     }
 
-    public String getPHP() {
-        return PHP;
+    public String getSgd() {
+        return sgd;
     }
 
-    public void setPHP(String PHP) {
-        this.PHP = PHP;
+    public void setSgd(String sgd) {
+        this.sgd = sgd;
     }
 
-    public String getSGD() {
-        return SGD;
+    public String getThb() {
+        return thb;
     }
 
-    public void setSGD(String SGD) {
-        this.SGD = SGD;
+    public void setThb(String thb) {
+        this.thb = thb;
     }
 
-    public String getTHB() {
-        return THB;
+    public String getZar() {
+        return zar;
     }
 
-    public void setTHB(String THB) {
-        this.THB = THB;
+    public void setZar(String zar) {
+        this.zar = zar;
     }
 
-    public String getZAR() {
-        return ZAR;
+    public String getTr() {
+        return tr;
     }
 
-    public void setZAR(String ZAR) {
-        this.ZAR = ZAR;
+    public void setTr(String tr) {
+        this.tr = tr;
     }
 }
