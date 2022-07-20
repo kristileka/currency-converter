@@ -6,6 +6,14 @@ public class CustomException extends RuntimeException {
     public CustomException() {
     }
 
+    public ExceptionType getType() {
+        return type;
+    }
+
+    public void setType(ExceptionType type) {
+        this.type = type;
+    }
+
     public CustomException(ExceptionType type) {
         this.type = type;
     }

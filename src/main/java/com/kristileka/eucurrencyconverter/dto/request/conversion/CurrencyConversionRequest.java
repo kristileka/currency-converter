@@ -1,26 +1,37 @@
-package com.kristileka.eucurrencyconverter.dto.request;
+package com.kristileka.eucurrencyconverter.dto.request.conversion;
 
-public class CurrencyConverterRequest {
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+public class CurrencyConversionRequest {
+
+
+    @NotNull(message = "Date is required, fieldName: date")
     private String date;
+    @NotNull(message = "Currency is required, fieldName: currency")
     private String currency;
+    @NotNull(message = "Target Currency is required, fieldName: targetCurrency")
     private String targetCurrency;
+    @NotNull(message = "Amount is required, fieldName: amount")
+    @Min(value = 1, message = "Amount must be greater than 0")
     private Double amount;
 
-    public CurrencyConverterRequest() {
+    public CurrencyConversionRequest() {
     }
 
-    public CurrencyConverterRequest(String date, String currency, String targetCurrency, Double amount) {
+    public CurrencyConversionRequest(String date, String currency, String targetCurrency, Double amount) {
         this.date = date;
         this.currency = currency;
         this.targetCurrency = targetCurrency;
         this.amount = amount;
     }
 
-    public String getLocalDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setLocalDate(String date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

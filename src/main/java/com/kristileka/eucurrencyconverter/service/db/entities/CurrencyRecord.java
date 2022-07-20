@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity(name = "exchange_record")
+@Entity(name = "currency_record")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "exchange_record", indexes = {@Index(name = "id_index", columnList = "id", unique = true)})
-public class ExchangeRecord {
-    public ExchangeRecord() {
+@Table(name = "currency_record", indexes = {@Index(name = "id_index", columnList = "id", unique = true)})
+public class CurrencyRecord {
+    public CurrencyRecord() {
         super();
     }
 
-    public ExchangeRecord(LocalDate date, String currency, Double amount) {
+    public CurrencyRecord(LocalDate date, String currency, Double amount) {
         this.date = date;
         this.currency = currency;
         this.amount = amount;

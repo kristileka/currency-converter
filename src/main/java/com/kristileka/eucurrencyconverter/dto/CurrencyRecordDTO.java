@@ -2,8 +2,8 @@ package com.kristileka.eucurrencyconverter.dto;
 
 import java.time.LocalDate;
 
-public class ExchangeRecordDTO {
-    public ExchangeRecordDTO(LocalDate date, String currency, double amount) {
+public class CurrencyRecordDTO {
+    public CurrencyRecordDTO(LocalDate date, String currency, double amount) {
         this.date = date;
         this.currency = currency;
         this.amount = amount;

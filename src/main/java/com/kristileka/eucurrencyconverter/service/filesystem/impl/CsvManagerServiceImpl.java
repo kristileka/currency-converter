@@ -1,6 +1,6 @@
 package com.kristileka.eucurrencyconverter.service.filesystem.impl;
 
-import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
+import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -17,8 +17,8 @@ import java.util.List;
 public class CsvManagerServiceImpl implements CsvManagerService {
 
     @Override
-    public List<ExchangeRecordDTO> readCsvExchangeRecords(String path) {
-        List<ExchangeRecordDTO> currencyData = new ArrayList<>();
+    public List<CurrencyRecordDTO> readCsvCurrencyRecords(String path) {
+        List<CurrencyRecordDTO> currencyData = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(path);
             CSVReader csvReader = new CSVReaderBuilder(filereader).build();
@@ -34,7 +34,7 @@ public class CsvManagerServiceImpl implements CsvManagerService {
                     if (!cell.equalsIgnoreCase("n/a") && !cell.isEmpty()) {
                         amount = Double.parseDouble(cell);
                     }
-                    currencyData.add(new ExchangeRecordDTO(LocalDate.parse(row[0]), currencies[j], amount));
+                    currencyData.add(new CurrencyRecordDTO(LocalDate.parse(row[0]), currencies[j], amount));
                 }
             }
         } catch (IOException | CsvException ignored) {

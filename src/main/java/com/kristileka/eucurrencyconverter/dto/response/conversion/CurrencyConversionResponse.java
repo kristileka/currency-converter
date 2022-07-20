@@ -1,19 +1,19 @@
-package com.kristileka.eucurrencyconverter.dto.response;
+package com.kristileka.eucurrencyconverter.dto.response.conversion;
 
 import java.time.LocalDate;
 
-public class CurrencyConverterResponse {
-    private LocalDate localDate;
+public class CurrencyConversionResponse {
+    private LocalDate date;
     private String currency;
     private String targetCurrency;
     private Double amount;
     private Double convertedAmount;
 
-    public CurrencyConverterResponse() {
+    public CurrencyConversionResponse() {
     }
 
-    public CurrencyConverterResponse(LocalDate localDate, String currency, String targetCurrency, Double amount, Double convertedAmount) {
-        this.localDate = localDate;
+    public CurrencyConversionResponse(LocalDate date, String currency, String targetCurrency, Double amount, Double convertedAmount) {
+        this.date = date;
         this.currency = currency;
         this.targetCurrency = targetCurrency;
         this.amount = amount;
@@ -28,12 +28,12 @@ public class CurrencyConverterResponse {
         this.convertedAmount = convertedAmount;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setDate1(LocalDate date) {
+        this.date = date;
     }
 
     public String getCurrency() {

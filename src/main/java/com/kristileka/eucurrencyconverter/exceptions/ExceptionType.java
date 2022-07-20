@@ -5,4 +5,5 @@ public enum ExceptionType {
     DATE_NOT_FOUND,
     CURRENCY_OR_DATE_NOT_FOUND,
     DATE_NOT_PARSABLE,
+
 }

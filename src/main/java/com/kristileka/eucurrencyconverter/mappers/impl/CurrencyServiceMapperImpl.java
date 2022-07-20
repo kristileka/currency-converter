@@ -1,11 +1,15 @@
 package com.kristileka.eucurrencyconverter.mappers.impl;
 
-import com.kristileka.eucurrencyconverter.dto.request.CurrencyConverterRequest;
-import com.kristileka.eucurrencyconverter.dto.response.CurrencyConverterResponse;
+import com.kristileka.eucurrencyconverter.dto.request.average.CurrencyAverageRequest;
+import com.kristileka.eucurrencyconverter.dto.request.conversion.CurrencyConversionRequest;
+import com.kristileka.eucurrencyconverter.dto.request.record.CurrencyRecordRequest;
+import com.kristileka.eucurrencyconverter.dto.response.average.CurrencyAverageResponse;
+import com.kristileka.eucurrencyconverter.dto.response.conversion.CurrencyConversionResponse;
+import com.kristileka.eucurrencyconverter.dto.response.record.CurrencyRecordResponse;
 import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
 import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponseData;
 import com.kristileka.eucurrencyconverter.mappers.CurrencyServiceMapper;
-import com.kristileka.eucurrencyconverter.service.db.entities.ExchangeRecord;
+import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,22 +20,34 @@ import java.util.stream.Collectors;
 @Service
 public class CurrencyServiceMapperImpl implements CurrencyServiceMapper {
     @Override
-    public DailyCurrencyResponse mapDailyCurrencyResponse(LocalDate localDate, List<ExchangeRecord> dailyRecords) {
+    public DailyCurrencyResponse mapDailyCurrencyResponse(LocalDate localDate, List<CurrencyRecord> dailyRecords) {
         DailyCurrencyResponse dailyCurrencyResponse = new DailyCurrencyResponse();
         dailyCurrencyResponse.setBaseCurrency("EUR");
         dailyCurrencyResponse.setDate(localDate);
         dailyCurrencyResponse.setCurrencyList(dailyRecords.stream()
-                .sorted(Comparator.comparing(ExchangeRecord::getCurrency)).map(exchangeRecord
-                        -> new DailyCurrencyResponseData(exchangeRecord.getCurrency(),
-                        exchangeRecord.getAmount())).collect(Collectors.toList()));
+                .sorted(Comparator.comparing(CurrencyRecord::getCurrency)).map(currencyRecord
+                        -> new DailyCurrencyResponseData(currencyRecord.getCurrency(),
+                        currencyRecord.getAmount())).collect(Collectors.toList()));
         return dailyCurrencyResponse;
     }
 
     @Override
-    public CurrencyConverterResponse mapConvertedCurrency(CurrencyConverterRequest body, Double convertedAmount) {
-        return new CurrencyConverterResponse(LocalDate.parse(body
-                .getLocalDate()),
+    public CurrencyConversionResponse mapConvertedCurrency(CurrencyConversionRequest body, Double convertedAmount) {
+        return new CurrencyConversionResponse(LocalDate.parse(body
+                .getDate()),
                 body.getCurrency(),
                 body.getTargetCurrency(), body.getAmount(), convertedAmount);
     }
+
+    @Override
+    public CurrencyRecordResponse mapBestRecord(CurrencyRecord currencyRecord, CurrencyRecordRequest body) {
+        return new CurrencyRecordResponse(currencyRecord.getCurrency(),
+                currencyRecord.getAmount(), body.getStartDate(), body.getEndDate(), currencyRecord.getDate().toString());
+    }
+
+    @Override
+    public CurrencyAverageResponse mapAverageRate(Double averageRate, CurrencyAverageRequest body) {
+        return new CurrencyAverageResponse(body.getCurrency(), averageRate, body.getStartDate(), body.getEndDate());
+    }
+
 }

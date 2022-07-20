@@ -2,7 +2,7 @@ package com.kristileka.eucurrencyconverter.cron.impl;
 
 import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
 import com.kristileka.eucurrencyconverter.cron.CurrencyUpdaterService;
-import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
+import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
 import com.kristileka.eucurrencyconverter.service.network.NetworkManagerService;
@@ -16,22 +16,26 @@ import java.util.List;
 public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
 
     @Autowired
-    ZipManagerService zipManagerService;
-    @Autowired
-    NetworkManagerService networkManagerService;
-    @Autowired
-    CsvManagerService csvManagerService;
+    public CurrencyUpdaterServiceImpl(ZipManagerService zipManagerService, NetworkManagerService networkManagerService, CsvManagerService csvManagerService, CurrencyDomainService currencyDomainService) {
+        this.zipManagerService = zipManagerService;
+        this.networkManagerService = networkManagerService;
+        this.csvManagerService = csvManagerService;
+        this.currencyDomainService = currencyDomainService;
+    }
 
-    @Autowired
-    CurrencyDomainService currencyBusiness;
+    private final ZipManagerService zipManagerService;
+    private final NetworkManagerService networkManagerService;
+    private final CsvManagerService csvManagerService;
+    private final CurrencyDomainService currencyDomainService;
 
     @Override
-    public void updateCurrencies() throws IOException {
+    public Boolean updateCurrencies() throws IOException {
         String latestContentZip = networkManagerService.getLatestContent();
         if (latestContentZip.isEmpty())
-            return;
+            return false;
         String csvPath = zipManagerService.unZipFile(latestContentZip);
-        List<ExchangeRecordDTO> exchangeRecordDtosList = csvManagerService.readCsvExchangeRecords(csvPath);
-        currencyBusiness.updateCurrencies(exchangeRecordDtosList);
+        List<CurrencyRecordDTO> currencyRecordDTOList = csvManagerService.readCsvCurrencyRecords(csvPath);
+        currencyDomainService.updateCurrencies(currencyRecordDTOList);
+        return true;
     }
 }

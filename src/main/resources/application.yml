@@ -1,5 +1,8 @@
 server:
   port: 9000
+springdoc:
+  swagger-ui:
+    path: swagger-ui.html
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ecb-currency

@@ -1,9 +1,9 @@
 package com.kristileka.eucurrencyconverter.service.filesystem;
 
-import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
+import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
 
 import java.util.List;
 
 public interface CsvManagerService {
-    List<ExchangeRecordDTO> readCsvExchangeRecords(String path);
+    List<CurrencyRecordDTO> readCsvCurrencyRecords(String path);
 }

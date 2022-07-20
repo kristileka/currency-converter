@@ -1,6 +1,6 @@
 package com.kristileka.eucurrencyconverter.service.db.impl;
 
-import com.kristileka.eucurrencyconverter.service.db.entities.ExchangeRecord;
+import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyManualRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class CurrencyManualRepositoryImpl implements CurrencyManualRepository {
     private int batchSize;
 
     @Override
-    public void saveAll(List<ExchangeRecord> exchangeRecords) {
+    public void saveAll(List<CurrencyRecord> currencyRecords) {
         ExecutorService executorService = Executors.newFixedThreadPool(hikariDataSource.getMaximumPoolSize());
-        List<List<ExchangeRecord>> listOfBookSub = createSubList(exchangeRecords, batchSize);
+        List<List<CurrencyRecord>> listOfBookSub = createSubList(currencyRecords, batchSize);
         List<Callable<Void>> callables = listOfBookSub.stream().map(sublist -> (Callable<Void>) () -> {
             saveAllCurrenciesBatchCallable(sublist);
             return null;
@@ -44,17 +44,17 @@ public class CurrencyManualRepositoryImpl implements CurrencyManualRepository {
     }
 
     @Override
-    public void saveAllCurrenciesBatchCallable(List<ExchangeRecord> exchangeRecords) {
-        String sql = String.format("INSERT INTO %s (currency, date, amount) " + "VALUES (?, ?, ?)", ExchangeRecord.class.getAnnotation(Table.class).name());
+    public void saveAllCurrenciesBatchCallable(List<CurrencyRecord> currencyRecords) {
+        String sql = String.format("INSERT INTO %s (currency, date, amount) " + "VALUES (?, ?, ?)", CurrencyRecord.class.getAnnotation(Table.class).name());
         try (Connection connection = hikariDataSource.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             int counter = 0;
-            for (ExchangeRecord record : exchangeRecords) {
+            for (CurrencyRecord record : currencyRecords) {
                 statement.clearParameters();
                 statement.setString(1, record.getCurrency());
                 statement.setDate(2, getDate(record.getDate()));
                 statement.setDouble(3, record.getAmount());
                 statement.addBatch();
-                if ((counter + 1) % batchSize == 0 || (counter + 1) == exchangeRecords.size()) {
+                if ((counter + 1) % batchSize == 0 || (counter + 1) == currencyRecords.size()) {
                     statement.executeBatch();
                     statement.clearBatch();
                 }

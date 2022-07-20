@@ -1,12 +1,12 @@
 package com.kristileka.eucurrencyconverter.service.db;
 
-import com.kristileka.eucurrencyconverter.service.db.entities.ExchangeRecord;
+import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
 
 import java.util.List;
 
 public interface CurrencyManualRepository {
 
-    void saveAllCurrenciesBatchCallable(List<ExchangeRecord> exchangeRecords);
+    void saveAllCurrenciesBatchCallable(List<CurrencyRecord> currencyRecords);
 
-    void saveAll(List<ExchangeRecord> exchangeRecords);
+    void saveAll(List<CurrencyRecord> currencyRecords);
 }

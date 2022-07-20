@@ -31,7 +31,7 @@ public class Extensions {
             for (String date : localDate) {
                 LocalDate.parse(date);
             }
-        } catch (DateTimeParseException ignored) {
+        } catch (NullPointerException | DateTimeParseException ignored) {
             throw new CustomException(ExceptionType.DATE_NOT_PARSABLE);
         }
     }

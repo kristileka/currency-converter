@@ -1,16 +1,20 @@
 package com.kristileka.eucurrencyconverter.domain.impl;
 
 import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
-import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
-import com.kristileka.eucurrencyconverter.dto.request.CurrencyConverterRequest;
-import com.kristileka.eucurrencyconverter.dto.response.CurrencyConverterResponse;
+import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
+import com.kristileka.eucurrencyconverter.dto.request.average.CurrencyAverageRequest;
+import com.kristileka.eucurrencyconverter.dto.request.conversion.CurrencyConversionRequest;
+import com.kristileka.eucurrencyconverter.dto.request.record.CurrencyRecordRequest;
+import com.kristileka.eucurrencyconverter.dto.response.average.CurrencyAverageResponse;
+import com.kristileka.eucurrencyconverter.dto.response.conversion.CurrencyConversionResponse;
+import com.kristileka.eucurrencyconverter.dto.response.record.CurrencyRecordResponse;
 import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
 import com.kristileka.eucurrencyconverter.exceptions.CustomException;
 import com.kristileka.eucurrencyconverter.exceptions.ExceptionType;
 import com.kristileka.eucurrencyconverter.mappers.CurrencyServiceMapper;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyManualRepository;
-import com.kristileka.eucurrencyconverter.service.db.ExchangeRecordRepository;
-import com.kristileka.eucurrencyconverter.service.db.entities.ExchangeRecord;
+import com.kristileka.eucurrencyconverter.service.db.CurrencyRepository;
+import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,25 +26,27 @@ import static com.kristileka.eucurrencyconverter.extensions.Extensions.validateD
 
 @Service
 public class CurrencyDomainServiceImpl implements CurrencyDomainService {
+    private CurrencyRepository currencyRepository;
+    private CurrencyManualRepository currencyManualRepository;
+    private CurrencyServiceMapper currencyServiceMapper;
 
     @Autowired
-    ExchangeRecordRepository exchangeRecordRepository;
-
-    @Autowired
-    CurrencyManualRepository currencyManualRepository;
-
-    @Autowired
-    CurrencyServiceMapper currencyServiceMapper;
+    CurrencyDomainServiceImpl(CurrencyServiceMapper currencyServiceMapper, CurrencyManualRepository currencyManualRepository, CurrencyRepository currencyRepository) {
+        this.currencyServiceMapper = currencyServiceMapper;
+        this.currencyManualRepository = currencyManualRepository;
+        this.currencyRepository = currencyRepository;
+    }
 
     @Override
-    public void updateCurrencies(List<ExchangeRecordDTO> exchangeRecordList) {
-        List<String> storedDatesCurrencies = exchangeRecordRepository.findAll().stream().parallel().map(exchangeRecord -> exchangeRecord.getDate() + exchangeRecord.getCurrency()).toList();
-        if (storedDatesCurrencies.size() == exchangeRecordList.size()) {
-            return;
+    public Boolean updateCurrencies(List<CurrencyRecordDTO> currencyRecordDTOList) {
+        List<String> storedDatesCurrencies = currencyRepository.findAll().stream().parallel().map(currencyRecord -> currencyRecord.getDate() + currencyRecord.getCurrency()).toList();
+        if (storedDatesCurrencies.size() == currencyRecordDTOList.size()) {
+            return false;
         }
-        List<ExchangeRecordDTO> toUpdate = exchangeRecordList.stream().parallel().filter(exchangeRecord -> !storedDatesCurrencies.contains(exchangeRecord.getDate() + exchangeRecord.getCurrency())).toList();
-        List<ExchangeRecord> exchangeRecords = toUpdate.stream().parallel().map(record -> new ExchangeRecord(record.getDate(), record.getCurrency(), record.getAmount())).toList();
-        currencyManualRepository.saveAll(exchangeRecords);
+        List<CurrencyRecordDTO> toUpdate = currencyRecordDTOList.stream().parallel().filter(currencyRecordDTO -> !storedDatesCurrencies.contains(currencyRecordDTO.getDate() + currencyRecordDTO.getCurrency())).toList();
+        List<CurrencyRecord> currencyRecords = toUpdate.stream().parallel().map(record -> new CurrencyRecord(record.getDate(), record.getCurrency(), record.getAmount())).toList();
+        currencyManualRepository.saveAll(currencyRecords);
+        return true;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class CurrencyDomainServiceImpl implements CurrencyDomainService {
         } else {
             localDate = LocalDate.now();
         }
-        List<ExchangeRecord> selectedDateRecords = exchangeRecordRepository.findAllByDate(localDate);
+        List<CurrencyRecord> selectedDateRecords = currencyRepository.findAllByDate(localDate);
         if (selectedDateRecords.isEmpty()) {
             throw new CustomException(ExceptionType.DATE_NOT_FOUND);
         }
@@ -60,14 +66,38 @@ public class CurrencyDomainServiceImpl implements CurrencyDomainService {
     }
 
     @Override
-    public CurrencyConverterResponse convertCurrency(CurrencyConverterRequest body) {
-        validateDates(body.getLocalDate());
-        ExchangeRecord baseCurrency = exchangeRecordRepository.findByDateAndCurrency(LocalDate.parse(body.getLocalDate()), body.getCurrency());
-        ExchangeRecord targetCurrency = exchangeRecordRepository.findByDateAndCurrency(LocalDate.parse(body.getLocalDate()), body.getTargetCurrency());
+    public CurrencyConversionResponse convertCurrency(CurrencyConversionRequest body) {
+        validateDates(body.getDate());
+        CurrencyRecord baseCurrency;
+        CurrencyRecord targetCurrency;
+        if (!body.getCurrency().equalsIgnoreCase("EUR"))
+            baseCurrency = currencyRepository.findByDateAndCurrency(LocalDate.parse(body.getDate()), body.getCurrency());
+        else baseCurrency = new CurrencyRecord(LocalDate.now(), "EUR", 1.0);
+
+        if (!body.getTargetCurrency().equalsIgnoreCase("EUR"))
+            targetCurrency = currencyRepository.findByDateAndCurrency(LocalDate.parse(body.getDate()), body.getTargetCurrency());
+        else targetCurrency = new CurrencyRecord(LocalDate.now(), "EUR", 1.0);
+
         if (baseCurrency == null || targetCurrency == null)
             throw new CustomException(ExceptionType.CURRENCY_OR_DATE_NOT_FOUND);
         Double convertedAmount = (body.getAmount() / baseCurrency.getAmount()) * targetCurrency.getAmount();
         return currencyServiceMapper.mapConvertedCurrency(body, convertedAmount);
+    }
+
+    @Override
+    public CurrencyRecordResponse getCurrencyRecord(CurrencyRecordRequest body) {
+        validateDates(body.getStartDate(), body.getEndDate());
+        CurrencyRecord bestRecord = currencyRepository.findRecordRate(body.getCurrency(), LocalDate.parse(body.getStartDate()), LocalDate.parse(body.getEndDate()));
+        if (bestRecord == null) throw new CustomException(ExceptionType.CURRENCY_OR_DATE_NOT_FOUND);
+        return currencyServiceMapper.mapBestRecord(bestRecord, body);
+    }
+
+    @Override
+    public CurrencyAverageResponse getCurrencyAverage(CurrencyAverageRequest body) {
+        validateDates(body.getStartDate(), body.getEndDate());
+        Double averageRate = currencyRepository.findAverageRate(body.getCurrency(), LocalDate.parse(body.getStartDate()), LocalDate.parse(body.getEndDate()));
+        if (averageRate == null) throw new CustomException(ExceptionType.CURRENCY_OR_DATE_NOT_FOUND);
+        return currencyServiceMapper.mapAverageRate(averageRate, body);
     }
 
 
