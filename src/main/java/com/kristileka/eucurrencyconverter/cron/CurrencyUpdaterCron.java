@@ -1,5 +1,7 @@
 package com.kristileka.eucurrencyconverter.cron;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,17 +12,17 @@ import java.io.IOException;
 @Service
 public class CurrencyUpdaterCron implements SmartLifecycle {
 
-    private boolean running = false;
-
     @Autowired
     CurrencyUpdaterService currencyUpdaterBusiness;
+    Logger logger = LoggerFactory.getLogger(CurrencyUpdaterCron.class);
+    private boolean running = false;
 
     @Scheduled(fixedDelay = 10 * 1000L)
     public void startCurrencyUpdater() {
         try {
             currencyUpdaterBusiness.updateCurrencies();
-        } catch (IOException ex) {
-
+        } catch (IOException ignored) {
+            logger.error("ERROR => Currencies are not updating.");
         }
     }
 

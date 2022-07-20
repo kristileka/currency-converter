@@ -1,33 +1,36 @@
-package com.kristileka.eucurrencyconverter.service.redis;
+package com.kristileka.eucurrencyconverter.service.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-@RedisHash("exchange-record")
+@Entity(name = "exchange_record")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "exchange_record", indexes = {@Index(name = "id_index", columnList = "id", unique = true)})
 public class ExchangeRecord {
-    public ExchangeRecord(String id, LocalDate date, String currency, Double amount) {
-        this.id = id;
+    public ExchangeRecord() {
+        super();
+    }
+
+    public ExchangeRecord(LocalDate date, String currency, Double amount) {
         this.date = date;
         this.currency = currency;
         this.amount = amount;
     }
 
-
-    @JsonIgnore
     @Id
-    String id;
-    @Indexed
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
+    @Column(name = "date", columnDefinition = "DATE")
     LocalDate date;
-    @Indexed
-    String currency;
-    Double amount;
 
+    @Column(name = "currency")
+    String currency;
+
+    @Column(name = "amount")
+    Double amount;
 
     public LocalDate getDate() {
         return date;

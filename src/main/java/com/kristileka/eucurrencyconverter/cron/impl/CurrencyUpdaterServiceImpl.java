@@ -1,6 +1,6 @@
 package com.kristileka.eucurrencyconverter.cron.impl;
 
-import com.kristileka.eucurrencyconverter.core.CurrencyBusiness;
+import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
 import com.kristileka.eucurrencyconverter.cron.CurrencyUpdaterService;
 import com.kristileka.eucurrencyconverter.dto.ExchangeRecordDTO;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
@@ -23,7 +23,7 @@ public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
     CsvManagerService csvManagerService;
 
     @Autowired
-    CurrencyBusiness currencyBusiness;
+    CurrencyDomainService currencyBusiness;
 
     @Override
     public void updateCurrencies() throws IOException {

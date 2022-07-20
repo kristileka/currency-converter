@@ -1,15 +1,28 @@
 package com.kristileka.eucurrencyconverter.controller;
 
+import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
+import com.kristileka.eucurrencyconverter.dto.request.CurrencyConverterRequest;
+import com.kristileka.eucurrencyconverter.dto.response.CurrencyConverterResponse;
+import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
-@RequestMapping("currency")
+@RequestMapping("api/")
 public class CurrencyController {
-    @GetMapping("/get")
-    public ResponseEntity<String> getCurrency() {
-        return ResponseEntity.ok("Hehe");
+    @Autowired
+    CurrencyDomainService currencyDomainService;
+
+    @GetMapping("/currency")
+    public ResponseEntity<DailyCurrencyResponse> getCurrencyByDate(@RequestParam("date") Optional<String> date ) {
+        return ResponseEntity.ok(currencyDomainService.getCurrenciesByDate(date));
+    }
+
+    @PostMapping("/currency")
+    public ResponseEntity<CurrencyConverterResponse> convertCurrency(@RequestBody CurrencyConverterRequest body) {
+        return ResponseEntity.ok(currencyDomainService.convertCurrency(body));
     }
 }
