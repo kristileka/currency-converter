@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "385ceb9d-82d5-461d-89a3-27d8140f2449",
+		"name": "ecb-currency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11451944"
+	},
+	"item": [
+		{
+			"name": "Currency By Date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/api/currency?date=2022-07-20",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"currency"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2022-07-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Currency Convert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\":\"USD\",\r\n    \"targetCurrency\":\"TRY\",\r\n    \"amount\":1,\r\n    \"date\":\"2022-02-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/api/currency",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"currency"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Best Currency Record",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\":\"TRY\",\r\n    \"startDate\":\"1900-02-05\",\r\n    \"endDate\":\"2022-04-12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/api/currency/record",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"currency",
+						"record"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\":\"TRY\",\r\n    \"startDate\":\"2022-02-05\",\r\n    \"endDate\":\"2023-12-12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9000/api/currency/average",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"currency",
+						"average"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

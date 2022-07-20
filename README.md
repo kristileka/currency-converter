@@ -62,7 +62,15 @@ Postgres username: ecb
 Postgres password: ecb
 ```
 
-Then simply start the spring boot application by running it on any IDE or running: 
+Then simply start the spring boot application by running it on any IDE or running:
+
 ```
 gradlew bootRun
 ```
+
+## Postman
+
+In the project directory there is a [Postman Collection](ecb-currency.postman_collection.json) which you can import
+directly into postman
+in order to get all the APIs registered and run from there. The collection is simple with no environments or any
+variables. There are just 4 requests to do all the currency operations
