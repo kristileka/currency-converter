@@ -17,7 +17,7 @@ public class CurrencyUpdaterCron implements SmartLifecycle {
     Logger logger = LoggerFactory.getLogger(CurrencyUpdaterCron.class);
     private boolean running = false;
 
-    @Scheduled(fixedDelay = 10 * 1000L)
+    @Scheduled(fixedDelay = 60 * 60 * 1000L)
     public void startCurrencyUpdater() {
         try {
             currencyUpdaterBusiness.updateCurrencies();
