@@ -1,15 +1,15 @@
-package com.kristileka.eucurrencyconverter.mappers.impl;
+package com.kristileka.eucurrencyconverter.domain.mappers.impl;
 
-import com.kristileka.eucurrencyconverter.dto.request.average.CurrencyAverageRequest;
-import com.kristileka.eucurrencyconverter.dto.request.conversion.CurrencyConversionRequest;
-import com.kristileka.eucurrencyconverter.dto.request.record.CurrencyRecordRequest;
-import com.kristileka.eucurrencyconverter.dto.response.average.CurrencyAverageResponse;
-import com.kristileka.eucurrencyconverter.dto.response.conversion.CurrencyConversionResponse;
-import com.kristileka.eucurrencyconverter.dto.response.record.CurrencyRecordResponse;
-import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
-import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponseData;
-import com.kristileka.eucurrencyconverter.mappers.CurrencyServiceMapper;
+import com.kristileka.eucurrencyconverter.domain.dto.request.average.CurrencyAverageRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.conversion.CurrencyConversionRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.record.CurrencyRecordRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.response.average.CurrencyAverageResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.conversion.CurrencyConversionResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.record.CurrencyRecordResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.daily.DailyCurrencyResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.daily.DailyCurrencyResponseData;
 import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
+import com.kristileka.eucurrencyconverter.domain.mappers.CurrencyServiceMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

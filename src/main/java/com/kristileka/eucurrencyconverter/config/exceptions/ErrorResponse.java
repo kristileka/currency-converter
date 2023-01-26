@@ -1,4 +1,4 @@
-package com.kristileka.eucurrencyconverter.exceptions;
+package com.kristileka.eucurrencyconverter.config.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

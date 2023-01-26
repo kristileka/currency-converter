@@ -1,8 +1,8 @@
-package com.kristileka.eucurrencyconverter.dto.request.record;
+package com.kristileka.eucurrencyconverter.domain.dto.request.average;
 
 import javax.validation.constraints.NotNull;
 
-public class CurrencyRecordRequest {
+public class CurrencyAverageRequest {
     @NotNull(message = "Start Date is required, fieldName: startDate")
     String startDate;
     @NotNull(message = "End Date is required, fieldName: endDate")
@@ -34,7 +34,7 @@ public class CurrencyRecordRequest {
         this.currency = currency;
     }
 
-    public CurrencyRecordRequest(String startDate, String endDate, String currency) {
+    public CurrencyAverageRequest(String startDate, String endDate, String currency) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.currency = currency;

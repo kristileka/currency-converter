@@ -1,37 +1,36 @@
 package com.kristileka.eucurrencyconverter.domain.impl;
 
-import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
-import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
-import com.kristileka.eucurrencyconverter.dto.request.average.CurrencyAverageRequest;
-import com.kristileka.eucurrencyconverter.dto.request.conversion.CurrencyConversionRequest;
-import com.kristileka.eucurrencyconverter.dto.request.record.CurrencyRecordRequest;
-import com.kristileka.eucurrencyconverter.dto.response.average.CurrencyAverageResponse;
-import com.kristileka.eucurrencyconverter.dto.response.conversion.CurrencyConversionResponse;
-import com.kristileka.eucurrencyconverter.dto.response.record.CurrencyRecordResponse;
-import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
-import com.kristileka.eucurrencyconverter.exceptions.CustomException;
-import com.kristileka.eucurrencyconverter.exceptions.ExceptionType;
-import com.kristileka.eucurrencyconverter.mappers.CurrencyServiceMapper;
+import com.kristileka.eucurrencyconverter.config.exceptions.CustomException;
+import com.kristileka.eucurrencyconverter.config.exceptions.ExceptionType;
+import com.kristileka.eucurrencyconverter.domain.dto.CurrencyRecordDTO;
+import com.kristileka.eucurrencyconverter.domain.dto.request.average.CurrencyAverageRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.conversion.CurrencyConversionRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.record.CurrencyRecordRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.response.average.CurrencyAverageResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.conversion.CurrencyConversionResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.daily.DailyCurrencyResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.record.CurrencyRecordResponse;
+import com.kristileka.eucurrencyconverter.domain.mappers.CurrencyServiceMapper;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyManualRepository;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyRepository;
 import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.kristileka.eucurrencyconverter.domain.CurrencyService;
 
 import static com.kristileka.eucurrencyconverter.extensions.Extensions.validateDates;
 
 @Service
-public class CurrencyDomainServiceImpl implements CurrencyDomainService {
-    private CurrencyRepository currencyRepository;
-    private CurrencyManualRepository currencyManualRepository;
-    private CurrencyServiceMapper currencyServiceMapper;
+public class CurrencyServiceImpl implements CurrencyService {
+    private final CurrencyRepository currencyRepository;
+    private final CurrencyManualRepository currencyManualRepository;
+    private final CurrencyServiceMapper currencyServiceMapper;
 
     @Autowired
-    CurrencyDomainServiceImpl(CurrencyServiceMapper currencyServiceMapper, CurrencyManualRepository currencyManualRepository, CurrencyRepository currencyRepository) {
+    CurrencyServiceImpl(CurrencyServiceMapper currencyServiceMapper, CurrencyManualRepository currencyManualRepository, CurrencyRepository currencyRepository) {
         this.currencyServiceMapper = currencyServiceMapper;
         this.currencyManualRepository = currencyManualRepository;
         this.currencyRepository = currencyRepository;

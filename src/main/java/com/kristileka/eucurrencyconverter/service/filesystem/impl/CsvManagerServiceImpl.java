@@ -1,6 +1,6 @@
 package com.kristileka.eucurrencyconverter.service.filesystem.impl;
 
-import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
+import com.kristileka.eucurrencyconverter.domain.dto.CurrencyRecordDTO;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;

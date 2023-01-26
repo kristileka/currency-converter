@@ -1,16 +1,16 @@
 package com.kristileka.eucurrencyconverter.domain.impl;
 
-import com.kristileka.eucurrencyconverter.dto.request.average.CurrencyAverageRequest;
-import com.kristileka.eucurrencyconverter.dto.request.conversion.CurrencyConversionRequest;
-import com.kristileka.eucurrencyconverter.dto.request.record.CurrencyRecordRequest;
-import com.kristileka.eucurrencyconverter.dto.response.average.CurrencyAverageResponse;
-import com.kristileka.eucurrencyconverter.dto.response.conversion.CurrencyConversionResponse;
-import com.kristileka.eucurrencyconverter.dto.response.daily.DailyCurrencyResponse;
-import com.kristileka.eucurrencyconverter.dto.response.record.CurrencyRecordResponse;
-import com.kristileka.eucurrencyconverter.exceptions.CustomException;
-import com.kristileka.eucurrencyconverter.exceptions.ExceptionType;
-import com.kristileka.eucurrencyconverter.mappers.CurrencyServiceMapper;
-import com.kristileka.eucurrencyconverter.mappers.impl.CurrencyServiceMapperImpl;
+import com.kristileka.eucurrencyconverter.domain.dto.request.average.CurrencyAverageRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.conversion.CurrencyConversionRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.request.record.CurrencyRecordRequest;
+import com.kristileka.eucurrencyconverter.domain.dto.response.average.CurrencyAverageResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.conversion.CurrencyConversionResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.daily.DailyCurrencyResponse;
+import com.kristileka.eucurrencyconverter.domain.dto.response.record.CurrencyRecordResponse;
+import com.kristileka.eucurrencyconverter.config.exceptions.CustomException;
+import com.kristileka.eucurrencyconverter.config.exceptions.ExceptionType;
+import com.kristileka.eucurrencyconverter.domain.mappers.CurrencyServiceMapper;
+import com.kristileka.eucurrencyconverter.domain.mappers.impl.CurrencyServiceMapperImpl;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyManualRepository;
 import com.kristileka.eucurrencyconverter.service.db.CurrencyRepository;
 import com.kristileka.eucurrencyconverter.service.db.entities.CurrencyRecord;
@@ -31,7 +31,7 @@ class CurrencyDomainServiceImplTest {
     @Test
     void noUpdatedCurrencies() {
 
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAll()).thenReturn(
                 List.of()
         );
@@ -41,7 +41,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void updatedCurrencies() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAll()).thenReturn(
                 List.of(new CurrencyRecord())
         );
@@ -51,7 +51,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyByDateWillThrowParse() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         CustomException exception = assertThrows(CustomException.class,
                 () -> currencyDomainService.getCurrenciesByDate(Optional.of("asdasd")));
         ExceptionType expectedType = ExceptionType.DATE_NOT_PARSABLE;
@@ -61,7 +61,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyByDateWillThrowEmpty() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAllByDate(LocalDate.parse("2023-02-20"))).thenReturn(
                 List.of()
         );
@@ -74,7 +74,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyByDateEmptySuccess() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAllByDate(LocalDate.parse("2022-02-20"))).thenReturn(
                 List.of(new CurrencyRecord(LocalDate.now(), "EUR", 1.0))
         );
@@ -91,7 +91,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void convertCurrencyWillThrowParse() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         CustomException exception = assertThrows(CustomException.class,
                 () -> currencyDomainService.convertCurrency(new CurrencyConversionRequest("asd", "asd", "asd", 2.0)));
         ExceptionType expectedType = ExceptionType.DATE_NOT_PARSABLE;
@@ -101,7 +101,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void convertCurrencyWillThrowEmpty() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findByDateAndCurrency(LocalDate.parse("2022-02-20"), "EUR")).thenReturn(
                 null
         );
@@ -115,7 +115,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void convertCurrencyWillWork() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findByDateAndCurrency(LocalDate.parse("2022-02-20"), "EUR")).thenReturn(
                 new CurrencyRecord(LocalDate.parse("2022-02-20"), "EUR", 1.0)
         );
@@ -139,7 +139,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyRecordWillThrowParse() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         CustomException exception = assertThrows(CustomException.class,
                 () -> currencyDomainService.getCurrencyRecord(new CurrencyRecordRequest("asd", "asd", "asd")));
         ExceptionType expectedType = ExceptionType.DATE_NOT_PARSABLE;
@@ -149,7 +149,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyRecordWillThrowEmpty() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findRecordRate("EUR", LocalDate.parse("2022-02-20"), LocalDate.parse("2022-02-20"))).thenReturn(
                 null
         );
@@ -163,7 +163,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyRecord() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findRecordRate("EUR", LocalDate.parse("2022-02-20"), LocalDate.parse("2022-02-20"))).thenReturn(
                 new CurrencyRecord(LocalDate.parse("2022-02-26"), "EUR", 1.2)
         );
@@ -179,7 +179,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyAverageWillThrowParse() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         CustomException exception = assertThrows(CustomException.class,
                 () -> currencyDomainService.getCurrencyAverage(new CurrencyAverageRequest("asd", "asd", "asd")));
         ExceptionType expectedType = ExceptionType.DATE_NOT_PARSABLE;
@@ -189,7 +189,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyAverageWillThrowEmpty() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAverageRate("EUR", LocalDate.parse("2022-02-20"), LocalDate.parse("2022-02-20"))).thenReturn(
                 null
         );
@@ -203,7 +203,7 @@ class CurrencyDomainServiceImplTest {
 
     @Test
     void getCurrencyAverage() {
-        CurrencyDomainServiceImpl currencyDomainService = new CurrencyDomainServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
+        CurrencyServiceImpl currencyDomainService = new CurrencyServiceImpl(currencyServiceMapper, currencyManualRepository, currencyRepository);
         Mockito.when(currencyRepository.findAverageRate("EUR", LocalDate.parse("2022-02-20"), LocalDate.parse("2022-02-20"))).thenReturn(
                 2.2
         );

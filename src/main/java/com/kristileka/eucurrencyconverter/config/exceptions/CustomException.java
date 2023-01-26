@@ -1,4 +1,4 @@
-package com.kristileka.eucurrencyconverter.exceptions;
+package com.kristileka.eucurrencyconverter.config.exceptions;
 
 public class CustomException extends RuntimeException {
     ExceptionType type;

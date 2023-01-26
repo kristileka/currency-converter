@@ -1,37 +1,38 @@
-package com.kristileka.eucurrencyconverter.dto.request.conversion;
+package com.kristileka.eucurrencyconverter.domain.dto.response.conversion;
 
+import java.time.LocalDate;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-public class CurrencyConversionRequest {
-
-
-    @NotNull(message = "Date is required, fieldName: date")
-    private String date;
-    @NotNull(message = "Currency is required, fieldName: currency")
+public class CurrencyConversionResponse {
+    private LocalDate date;
     private String currency;
-    @NotNull(message = "Target Currency is required, fieldName: targetCurrency")
     private String targetCurrency;
-    @NotNull(message = "Amount is required, fieldName: amount")
-    @Min(value = 1, message = "Amount must be greater than 0")
     private Double amount;
+    private Double convertedAmount;
 
-    public CurrencyConversionRequest() {
+    public CurrencyConversionResponse() {
     }
 
-    public CurrencyConversionRequest(String date, String currency, String targetCurrency, Double amount) {
+    public CurrencyConversionResponse(LocalDate date, String currency, String targetCurrency, Double amount, Double convertedAmount) {
         this.date = date;
         this.currency = currency;
         this.targetCurrency = targetCurrency;
         this.amount = amount;
+        this.convertedAmount = convertedAmount;
     }
 
-    public String getDate() {
+    public Double getConvertedAmount() {
+        return convertedAmount;
+    }
+
+    public void setConvertedAmount(Double convertedAmount) {
+        this.convertedAmount = convertedAmount;
+    }
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate1(LocalDate date) {
         this.date = date;
     }
 

@@ -1,12 +1,11 @@
-package com.kristileka.eucurrencyconverter.dto.response.record;
+package com.kristileka.eucurrencyconverter.domain.dto.response.average;
 
-public class CurrencyRecordResponse {
+public class CurrencyAverageResponse {
     String currency;
-    Double amount;
+    Double averageRate;
     String baseCurrency = "EUR";
     String startDate;
     String endDate;
-    String recordDate;
 
     public String getCurrency() {
         return currency;
@@ -16,12 +15,12 @@ public class CurrencyRecordResponse {
         this.currency = currency;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getAverageRate() {
+        return averageRate;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setAverageRate(Double averageRate) {
+        this.averageRate = averageRate;
     }
 
     public String getBaseCurrency() {
@@ -48,19 +47,11 @@ public class CurrencyRecordResponse {
         this.endDate = endDate;
     }
 
-    public String getRecordDate() {
-        return recordDate;
-    }
 
-    public void setRecordDate(String recordDate) {
-        this.recordDate = recordDate;
-    }
-
-    public CurrencyRecordResponse(String currency, Double amount, String startDate, String endDate, String recordDate) {
+    public CurrencyAverageResponse(String currency, Double averageRate, String startDate, String endDate) {
         this.currency = currency;
-        this.amount = amount;
+        this.averageRate = averageRate;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.recordDate = recordDate;
     }
 }

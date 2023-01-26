@@ -1,4 +1,4 @@
-package com.kristileka.eucurrencyconverter.dto.response.daily;
+package com.kristileka.eucurrencyconverter.domain.dto.response.daily;
 
 import java.time.LocalDate;
 import java.util.List;

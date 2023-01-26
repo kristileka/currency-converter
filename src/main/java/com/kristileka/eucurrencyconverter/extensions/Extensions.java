@@ -1,7 +1,7 @@
 package com.kristileka.eucurrencyconverter.extensions;
 
-import com.kristileka.eucurrencyconverter.exceptions.CustomException;
-import com.kristileka.eucurrencyconverter.exceptions.ExceptionType;
+import com.kristileka.eucurrencyconverter.config.exceptions.CustomException;
+import com.kristileka.eucurrencyconverter.config.exceptions.ExceptionType;
 
 import java.sql.Date;
 import java.time.LocalDate;

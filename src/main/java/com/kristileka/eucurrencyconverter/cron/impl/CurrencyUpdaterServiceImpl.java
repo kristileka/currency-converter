@@ -1,8 +1,7 @@
 package com.kristileka.eucurrencyconverter.cron.impl;
 
-import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
 import com.kristileka.eucurrencyconverter.cron.CurrencyUpdaterService;
-import com.kristileka.eucurrencyconverter.dto.CurrencyRecordDTO;
+import com.kristileka.eucurrencyconverter.domain.dto.CurrencyRecordDTO;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
 import com.kristileka.eucurrencyconverter.service.network.NetworkManagerService;
@@ -16,7 +15,7 @@ import java.util.List;
 public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
 
     @Autowired
-    public CurrencyUpdaterServiceImpl(ZipManagerService zipManagerService, NetworkManagerService networkManagerService, CsvManagerService csvManagerService, CurrencyDomainService currencyDomainService) {
+    public CurrencyUpdaterServiceImpl(ZipManagerService zipManagerService, NetworkManagerService networkManagerService, CsvManagerService csvManagerService, com.kristileka.eucurrencyconverter.domain.CurrencyService currencyDomainService) {
         this.zipManagerService = zipManagerService;
         this.networkManagerService = networkManagerService;
         this.csvManagerService = csvManagerService;
@@ -26,7 +25,7 @@ public class CurrencyUpdaterServiceImpl implements CurrencyUpdaterService {
     private final ZipManagerService zipManagerService;
     private final NetworkManagerService networkManagerService;
     private final CsvManagerService csvManagerService;
-    private final CurrencyDomainService currencyDomainService;
+    private final com.kristileka.eucurrencyconverter.domain.CurrencyService currencyDomainService;
 
     @Override
     public Boolean updateCurrencies() throws IOException {

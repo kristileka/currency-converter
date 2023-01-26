@@ -1,4 +1,4 @@
-package com.kristileka.eucurrencyconverter.exceptions;
+package com.kristileka.eucurrencyconverter.config.exceptions;
 
 public enum ExceptionType {
     CURRENCY_NOT_FOUND,

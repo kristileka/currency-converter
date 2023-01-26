@@ -1,6 +1,5 @@
 package com.kristileka.eucurrencyconverter.cron.impl;
 
-import com.kristileka.eucurrencyconverter.domain.CurrencyDomainService;
 import com.kristileka.eucurrencyconverter.service.filesystem.CsvManagerService;
 import com.kristileka.eucurrencyconverter.service.filesystem.ZipManagerService;
 import com.kristileka.eucurrencyconverter.service.network.NetworkManagerService;
@@ -16,7 +15,7 @@ class CurrencyUpdaterServiceImplTest {
     private final ZipManagerService zipManagerService = Mockito.mock(ZipManagerService.class);
     private final NetworkManagerService networkManagerService = Mockito.mock(NetworkManagerService.class);
     private final CsvManagerService csvManagerService = Mockito.mock(CsvManagerService.class);
-    private final CurrencyDomainService currencyDomainService = Mockito.mock(CurrencyDomainService.class);
+    private final com.kristileka.eucurrencyconverter.domain.CurrencyService currencyDomainService = Mockito.mock(com.kristileka.eucurrencyconverter.domain.CurrencyService.class);
 
     @Test
     void updateCurrenciesNetworkFail() throws IOException {
